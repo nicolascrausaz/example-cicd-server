@@ -20,8 +20,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '8'
-        distribution: 'adopt'
-        cache: maven      
+        distribution: 'adopt'      
     #Set up SonarCloud cache
     - name: Cache SonarCloud packages
       #This action allows caching dependencies and build outputs to improve workflow execution time.
@@ -38,12 +37,9 @@ jobs:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
-    #Build
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    #Analyze project with SonarCloud
-    - name: Analyze with SonarCloud
-      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nicolascrausaz_example-cicd-server
+    #Build and Analyze project with SonarCloud
+    - name: Build and Analyze with SonarCloud
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nicolascrausaz_example-cicd-server
