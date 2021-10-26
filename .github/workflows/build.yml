@@ -32,8 +32,7 @@ jobs:
         name: artifact
         #From this path
         path: target/demo-0.0.1-SNAPSHOT.war
-      
-  
+        
   #Deploy's job
   deploy:
     #Depends on build's job
@@ -47,6 +46,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: artifact
+      #Get maven build version
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+      
       #Deploy the artifact (WAR) into AWS Beanstalk
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v13
@@ -56,6 +60,6 @@ jobs:
           use_existing_version_if_available: false
           application_name: spring-boot-deploy
           environment_name: Springbootdeploy-env-1
-          version_label: ${{github.SHA}}
+          version_label: ${{projet.version}}
           region: eu-west-3
           deployment_package: demo-0.0.1-SNAPSHOT.war
