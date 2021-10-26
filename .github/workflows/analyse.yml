@@ -4,8 +4,6 @@
 name: Analyze project with SonarCloud
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
