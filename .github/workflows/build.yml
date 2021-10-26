@@ -60,6 +60,6 @@ jobs:
           use_existing_version_if_available: false
           application_name: spring-boot-deploy
           environment_name: Springbootdeploy-env-1
-          version_label: ${{projet.version}}
+          version_label: ${{project.version}}
           region: eu-west-3
           deployment_package: demo-0.0.1-SNAPSHOT.war
